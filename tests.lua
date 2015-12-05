@@ -98,6 +98,18 @@ print(section:match('[my_section_test1]'))
 print(section:match('[ my_section_test ]  '))
 print(section:match('[1my_section_test]'))
 
+do
+print '-- test 15'
+local upper = P'a'^0
+local lower = P'A'^0
+local digit = P'9'^0
+local test_add = C(upper + lower + digit)
+local test_mult = C(upper * lower * digit)
+print('-- ',test_add:match('AZa1'))
+print('-- ',test_add:match('1aAZ'))
+print('-- ',test_mult:match('AZa'))
+end
+
 local function print_table_r(t,i)
     if t == nil then
         print'nil'
@@ -112,29 +124,12 @@ local function print_table_r(t,i)
     end
 end
 
-local sc = '=' -- Separator character
-local cc = ';#' -- Comment characters
-
-local grammar = P{
-    'all';
-    -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0,
-    key = C(_alpha^1 * (_alpha + digit)^0) * space^0,
-    sep = P(sc)^-1 * space^0,
-    cr = P'\n' + P'\r\n',
-    comment = C(S(cc)^1) * C(lpeg.print^0),
-    value = C(lpeg.print^1),
-    set = V'key' * V'sep' * V'value',
-    section = P'['^1 * space^0 * V'key' * space^0 * P']'^1 * space^0,
-    line = space^0 * V'comment'^0 * V'section'^0 * V'set'^0,
-    lines = Ct(V'line' * (V'cr' * V'line')^0),
-    all = V'lines' * (V'cr' + -1), -- lines followed by a line return or end of string
-}
-
 print '-- test 14'
-print_table_r(grammar:match('a_key = this is the value for this set'))
-print_table_r(grammar:match('[this_is_a_section_test]'))
-print_table_r(grammar:match('; this is a comment test'))
-local t = grammar:match[[
+local ini = require 'ini'
+print_table_r(ini.parse('a_key = this is the value for this set'))
+print_table_r(ini.parse('[this_is_a_section_test]'))
+print_table_r(ini.parse('; this is a comment test'))
+local t = ini.parse[[
 ; this is a comment
 
 [opengl]
