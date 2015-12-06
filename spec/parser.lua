@@ -11,10 +11,10 @@ describe('Test the parser', function()
         assert.same({'section_test'}, ini.parse('[section_test]'))
         assert.same({'section_test1'}, ini.parse('[section_test1]')) -- test digit
         assert.same({'s1ection_test'}, ini.parse('[s1ection_test]')) -- test digit
-        -- assert.same(ini.parse('[ section_test ]  '), {'section_test'}) -- test space
-        -- assert.is_nil(ini.parse('[test_section'))
-        -- -- assert.is_nil(ini.parse('test_section]'))
-        -- assert.is_nil(ini.parse('[1my_section_test]')) -- fail because starts with a digit
+        assert.same({'section_test'}, ini.parse('[ section_test ]  ')) -- test space
+        assert.is_nil(ini.parse('[test_section'))
+        -- assert.is_nil(ini.parse('test_section]'))
+        assert.is_nil(ini.parse('[1my_section_test]')) -- fail because starts with a digit
     end)
 
     it('Multi-lines string',function()
@@ -51,7 +51,6 @@ describe('Pattern tests', function()
     local alpha = lpeg.alpha
 
     local _alpha = P('_') + alpha -- match one alpha or underscore character
-    local key = C(_alpha^1 * (_alpha + digit)^0) * space^0
 
     it('alpha', function()
         assert.equals(_alpha:match('a'), 2)
@@ -63,6 +62,8 @@ describe('Pattern tests', function()
         assert.is_nil(_alpha:match('1'))
     end)
 
+    local key = C(_alpha^1 * (_alpha + digit)^0) * space^0
+    
     it('key', function()
         assert.equals('_', key:match('_'))
         assert.equals('a', key:match('a'))
