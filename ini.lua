@@ -9,6 +9,7 @@ local ini = {}
 -- Config
 local sc = '=' -- Separator character
 local cc = ';#' -- Comment characters
+local lowercase_keys = true -- TODO
 
 local P = lpeg.P    -- Pattern
 local R = lpeg.R    -- Range
@@ -25,7 +26,7 @@ local digit = lpeg.digit
 
 ini.grammar = P{
     'all';
-    -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0,
+    -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
     _alpha = P('_') + alpha, -- underscore or alpha character
     key = C(V'_alpha'^1 * ('_alpha' + digit)^0) * space^0,
     sep = P(sc)^-1 * space^0,
