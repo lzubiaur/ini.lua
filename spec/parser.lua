@@ -18,15 +18,7 @@ describe('Test the parser', function()
     end)
 
     it('Multi-lines string',function()
-        local t = ini.parse[[
-        ; this is a comment
-
-        [opengl]
-        fullscreen = true
-
-        window = 200,200
-        ]]
-        assert.same(t,{
+        assert.same({
             ';',
             ' this is a comment',
             'opengl',
@@ -34,7 +26,14 @@ describe('Test the parser', function()
             'true',
             'window',
             '200,200'
-        })
+        }, ini.parse[[
+        ; this is a comment
+
+        [opengl]
+        fullscreen = true
+
+        window = 200,200
+        ]])
     end)
 
 end)
@@ -63,7 +62,7 @@ describe('Pattern tests', function()
     end)
 
     local key = C(_alpha^1 * (_alpha + digit)^0) * space^0
-    
+
     it('key', function()
         assert.equals('_', key:match('_'))
         assert.equals('a', key:match('a'))
