@@ -4,9 +4,19 @@ describe('Test the ini parser', function()
     end)
 
     it('basic test', function()
-        assert.are.same(ini.parse('a_key = this is the value for this set'), {'a_key', 'this is the value for this set'})
-        assert.are.same(ini.parse('[this_is_a_section_test]'), {'this_is_a_section_test'})
-        assert.are.same(ini.parse('; this is a comment test'), {';',' this is a comment test'})
+        assert.same(ini.parse('a_key = this is the value for this set'), {'a_key', 'this is the value for this set'})
+        assert.same(ini.parse('[this_is_a_section_test]'), {'this_is_a_section_test'})
+        assert.same(ini.parse('; this is a comment test'), {';',' this is a comment test'})
+    end)
+
+    it('section', function()
+        assert.same(ini.parse('[section_test]'),{'section_test'})
+        assert.same(ini.parse('[section_test1]'),{'section_test1'}) -- test digit
+        assert.same(ini.parse('[section1_test]'),{'section1_test'}) -- test digit
+        assert.same(ini.parse('[ section_test ]  '), {'section_test'}) -- test space
+        assert.is_nil(ini.parse('[test_section'))
+        -- assert.is_nil(ini.parse('test_section]'))
+        assert.is_nil(ini.parse('[1my_section_test]')) -- fail because starts with a digit
     end)
 
     it('Multi-lines string',function()
@@ -18,7 +28,7 @@ describe('Test the ini parser', function()
 
         window = 200,200
         ]]
-        assert.are.same(t,{
+        assert.same(t,{
             ';',
             ' this is a comment',
             'opengl',
