@@ -28,7 +28,7 @@ ini.grammar = P{
     'all';
     -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
     _alpha = P('_') + alpha, -- underscore or alpha character
-    key = C(V'_alpha'^1 * ('_alpha' + digit)^0) * space^0,
+    key = C(V'_alpha'^1 * (V'_alpha' + digit)^0) * space^0,
     sep = P(sc)^-1 * space^0,
     cr = P'\n' + P'\r\n',
     comment = C(S(cc)^1) * C(lpeg.print^0),
