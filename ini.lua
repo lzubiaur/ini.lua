@@ -40,10 +40,11 @@ ini.grammar = P{
     value = C(lpeg.print^1),
     set = Cg(V'key' * V'sep' * V'value'),
     line = space^0 * (V'comment' + V'set'),
+    body = Cf(Ct'' * (V'cr' + V'line')^0, rawset),
     label = P'['^1 * space^0 * V'key' * space^0 * P']'^1 * space^0, -- the section label
-    section = Cg(V'label' * Cf(Ct'' * (V'cr' + V'line')^0,rawset)),
+    section = Cg(V'label' * V'body'),
     sections = V'section' * (V'cr' + V'section')^0,
-    all = Cf(Ct'' * V'sections',rawset) * (V'cr' + -1), -- lines followed by a line return or end of string
+    all = Cf(Ct'' * ((V'cr' + V'line')^0 * V'sections'^0), rawset) * (V'cr' + -1), -- lines followed by a line return or end of string
 }
 
 ini.parse = function(data)
