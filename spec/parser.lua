@@ -58,6 +58,7 @@ size = 200,200
 ]])
 
     -- Multiple sections
+    -- Test space before and after section
         assert.same({
             window = {
                 fullscreen = 'true',
@@ -68,8 +69,9 @@ size = 200,200
                 version = '1.0.0'
             }
         }, ini.parse[[
-[window]
-fullscreen = true
+ [ window ]
+ ; comment with space 
+ fullscreen = true
 size = 200,200
 [app]
 name = My Game
