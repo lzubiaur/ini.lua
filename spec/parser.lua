@@ -7,7 +7,7 @@ describe('Test the parser', function()
         assert.same({}, ini.parse('; this is a comment test'))
     end)
 
-    it('section', function()
+    it('section label', function()
         assert.same({ section_test = {} }, ini.parse('[section_test]'))
         assert.same({ section_test1 = {} }, ini.parse('[section_test1]')) -- test digit
         assert.same({ s1ection_test = {} }, ini.parse('[s1ection_test]')) -- test digit
@@ -17,9 +17,7 @@ describe('Test the parser', function()
         assert.is_nil(ini.parse('[1my_section_test]')) -- fail because starts with a digit
     end)
 
-    it('Multi-lines string',function()
-
-        -- No sections
+    it('Multi-lines no section', function()
         assert.same({
             project = 'My Game',
             version = '1.0.0'
@@ -28,7 +26,9 @@ describe('Test the parser', function()
 project = My Game
 version = 1.0.0
 ]])
-        -- Default and one section
+    end)
+
+    it('Test default and one section', function()
         assert.same({
             project = 'My Game',
             version = '1.0.0',
@@ -44,8 +44,9 @@ version = 1.0.0
 fullscreen = true
 size = 200,200
 ]])
+    end)
 
-    -- No default
+    it('Test no default', function()
         assert.same({
             window = {
                 fullscreen = 'true',
@@ -56,9 +57,9 @@ size = 200,200
 fullscreen = true
 size = 200,200
 ]])
+    end)
 
-    -- Multiple sections
-    -- Test space before and after section
+    it('Test multiple sections', function()
         assert.same({
             window = {
                 fullscreen = 'true',
@@ -69,15 +70,27 @@ size = 200,200
                 version = '1.0.0'
             }
         }, ini.parse[[
- [ window ]
- ; comment with space 
- fullscreen = true
+[window]
+; comment with space
+fullscreen = true
 size = 200,200
 [app]
 name = My Game
 version = 1.0.0
 ]])
+    end)
 
+    it('Test lines starting with spaces', function()
+        assert.same({
+            window = {
+                fullscreen = 'true',
+                size = '200,200'
+            }
+        }, ini.parse[[
+  [window]
+  fullscreen = true
+size = 200,200
+]])
     end)
 
 end)
