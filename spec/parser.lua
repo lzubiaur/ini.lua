@@ -2,38 +2,80 @@ describe('Test the parser', function()
     local ini = require 'ini'
 
     it('basic test', function()
-        assert.same({'a_key', 'this is the value for this set'}, ini.parse('a_key = this is the value for this set'))
-        assert.same({'this_is_a_section_test'}, ini.parse('[this_is_a_section_test]'))
-        assert.same({';',' this is a comment test'},ini.parse('; this is a comment test'))
+        assert.same({ name = 'value' }, ini.parse('name = value'))
+        assert.same({ section_test = {} }, ini.parse('[section_test]'))
+        assert.same({}, ini.parse('; this is a comment test'))
     end)
 
     it('section', function()
-        assert.same({'section_test'}, ini.parse('[section_test]'))
-        assert.same({'section_test1'}, ini.parse('[section_test1]')) -- test digit
-        assert.same({'s1ection_test'}, ini.parse('[s1ection_test]')) -- test digit
-        assert.same({'section_test'}, ini.parse('[ section_test ]  ')) -- test space
+        assert.same({ section_test = {} }, ini.parse('[section_test]'))
+        assert.same({ section_test1 = {} }, ini.parse('[section_test1]')) -- test digit
+        assert.same({ s1ection_test = {} }, ini.parse('[s1ection_test]')) -- test digit
+        assert.same({ section_test = {} }, ini.parse('[ section_test ]  ')) -- test space
         assert.is_nil(ini.parse('[test_section'))
         -- assert.is_nil(ini.parse('test_section]'))
         assert.is_nil(ini.parse('[1my_section_test]')) -- fail because starts with a digit
     end)
 
     it('Multi-lines string',function()
+
+        -- No sections
         assert.same({
-            ';',
-            ' this is a comment',
-            'opengl',
-            'fullscreen',
-            'true',
-            'window',
-            '200,200'
+            project = 'My Game',
+            version = '1.0.0'
         }, ini.parse[[
-        ; this is a comment
+; Default
+project = My Game
+version = 1.0.0
+]])
+        -- Default and one section
+        assert.same({
+            project = 'My Game',
+            version = '1.0.0',
+            window = {
+                fullscreen = 'true',
+                size = '200,200'
+            }
+        }, ini.parse[[
+; Default
+project = My Game
+version = 1.0.0
+[window]
+fullscreen = true
+size = 200,200
+]])
 
-        [opengl]
-        fullscreen = true
+    -- No default
+        assert.same({
+            window = {
+                fullscreen = 'true',
+                size = '200,200'
+            }
+        }, ini.parse[[
+[window]
+fullscreen = true
+size = 200,200
+]])
 
-        window = 200,200
-        ]])
+    -- Multiple sections
+        assert.same({
+            window = {
+                fullscreen = 'true',
+                size = '200,200',
+            },
+            app = {
+                name = 'My Game',
+                version = '1.0.0'
+            }
+        }, ini.parse[[
+[window]
+fullscreen = true
+size = 200,200
+[app]
+name = My Game
+version = 1.0.0
+]])
+
     end)
 
 end)
