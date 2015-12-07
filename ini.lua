@@ -24,6 +24,11 @@ local space = lpeg.space
 local alpha = lpeg.alpha
 local digit = lpeg.digit
 
+-- TODO failed if there is an empty line at eof
+
+-- NOTE If keys are note unique within a section the last key is used.
+-- If several section labels are not unique the last section will be used.
+
 ini.grammar = P{
     'all';
     -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
@@ -33,12 +38,12 @@ ini.grammar = P{
     cr = P'\n' + P'\r\n',
     comment = S(cc)^1 * lpeg.print^0,
     value = C(lpeg.print^1),
-    set = V'key' * V'sep' * V'value',
+    set = Cg(V'key' * V'sep' * V'value'),
     line = space^0 * (V'comment' + V'set'),
     label = P'['^1 * space^0 * V'key' * space^0 * P']'^1 * space^0, -- the section label
-    section = Ct(V'label' * (V'cr' + V'line')^0),
+    section = Cg(V'label' * Cf(Ct'' * (V'cr' + V'line')^0,rawset)),
     sections = V'section' * (V'cr' + V'section')^0,
-    all = Ct(V'sections') * (V'cr' + -1), -- lines followed by a line return or end of string
+    all = Cf(Ct'' * V'sections',rawset) * (V'cr' + -1), -- lines followed by a line return or end of string
 }
 
 ini.parse = function(data)
