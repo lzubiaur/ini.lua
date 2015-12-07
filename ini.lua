@@ -34,16 +34,16 @@ ini.grammar = P{
     comment = C(S(cc)^1) * C(lpeg.print^0),
     value = C(lpeg.print^1),
     set = V'key' * V'sep' * V'value',
-    section = P'['^1 * space^0 * V'key' * space^0 * P']'^1 * space^0,
-    -- line = space^0 * V'comment'^0 * V'section'^0 * V'set'^0,
-    line = space^0 * (V'comment' + V'section' + V'set')^0,
-    lines = Ct(V'line' * (V'cr' * V'line')^0),
-    all = V'lines' * (V'cr' + -1), -- lines followed by a line return or end of string
+    line = space^0 * (V'comment' + V'set'),
+    label = P'['^1 * space^0 * V'key' * space^0 * P']'^1 * space^0,
+    section = Ct(V'label' * (V'cr' + V'line')^0),
+    sections = V'section' * (V'cr' + V'section')^0,
+    all = Ct(V'sections') * (V'cr' + -1), -- lines followed by a line return or end of string
 }
 
 ini.parse = function(data)
     if type(data) == 'string' then
-        return lpeg.match(ini.grammar,data)
+        return lpeg.match(ini.grammar, data)
     end
     return {}
 end
