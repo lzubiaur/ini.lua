@@ -58,7 +58,7 @@ end
 ## TODO
 
 ## License
-This project is licensed under the terms of the [MIT license].
+This project is licensed under the terms of the [MIT license][4].
 
 [1]:http://www.inf.puc-rio.br/~roberto/lpeg/
 [2]:http://olivinelabs.com/busted/
