@@ -26,8 +26,10 @@ local digit = lpeg.digit
 
 -- TODO failed if there is an empty line at eof
 
--- NOTE If keys are note unique within a section the last key is used.
--- If several section labels are not unique the last section will be used.
+-- NOTE
+-- keys and sections redundancy
+-- Redundant keys within the same section will be ignored and only the last occurence will be captured.
+-- Sections with the same labels will be ignored and the last reduntant section occurence will be captured.
 
 ini.grammar = P{
     'all';
