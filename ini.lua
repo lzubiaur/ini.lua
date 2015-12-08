@@ -24,40 +24,41 @@ lpeg.locale(lpeg)   -- adds locale entries into 'lpeg' table
 -- The module
 local ini = {}
 
--- Config
-local sc = '=' -- Separator character
-local cc = ';#' -- Comment characters
-local lowercase_keys = true -- TODO
-
-local P = lpeg.P    -- Pattern
-local R = lpeg.R    -- Range
-local S = lpeg.S    -- String
-local V = lpeg.V    -- Variable
-local C = lpeg.C    -- Capture
-local Cf = lpeg.Cf  -- Capture floding
-local Cc = lpeg.Cc  -- Constant capture
-local Ct = lpeg.Ct  -- Table capture
-local Cg = lpeg.Cg  -- Group capture
-local space = lpeg.space
-local alpha = lpeg.alpha
-local digit = lpeg.digit
-
 -- TODO failed if there is an empty line at eof
-
 -- NOTE
 -- keys and sections redundancy
 -- Redundant keys within the same section will be ignored and only the last occurence will be captured.
 -- Sections with the same labels will be ignored and the last reduntant section occurence will be captured.
 
-ini.grammar = P{
+ini.config = function(t)
+  -- Config parameters
+  local sc = t.separator or '=' -- Separator character
+  local cc = t.comment or ';#' -- Comment characters
+  local lowercase_keys = true -- TODO
+
+  -- LPeg shortcut
+  local P = lpeg.P    -- Pattern
+  local R = lpeg.R    -- Range
+  local S = lpeg.S    -- String
+  local V = lpeg.V    -- Variable
+  local C = lpeg.C    -- Capture
+  local Cf = lpeg.Cf  -- Capture floding
+  local Cc = lpeg.Cc  -- Constant capture
+  local Ct = lpeg.Ct  -- Table capture
+  local Cg = lpeg.Cg  -- Group capture
+  local space = lpeg.space
+  local alpha = lpeg.alpha
+  local digit = lpeg.digit
+
+  ini.grammar = P{
     'all';
     -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
     _alpha = P('_') + alpha, -- underscore or alpha character
     key = C(V'_alpha'^1 * (V'_alpha' + digit)^0) * space^0,
-    sep = P(sc)^-1 * space^0,
+    sep = P(sc),
     cr = P'\n' + P'\r\n',
     comment = S(cc)^1 * lpeg.print^0,
-    value = C(lpeg.print^1),
+    value = space^0 * C(lpeg.print^1), -- front space are not captured
     set = Cg(V'key' * V'sep' * V'value'),
     line = space^0 * (V'comment' + V'set'),
     body = Cf(Ct'' * (V'cr' + V'line')^0, rawset),
@@ -65,13 +66,17 @@ ini.grammar = P{
     section = space^0 * Cg(V'label' * V'body'),
     sections = V'section' * (V'cr' + V'section')^0,
     all = Cf(Ct'' * ((V'cr' + V'line')^0 * V'sections'^0), rawset) * (V'cr' + -1), -- lines followed by a line return or end of string
-}
+  }
+end
 
 ini.parse = function(data)
-    if type(data) == 'string' then
-        return lpeg.match(ini.grammar, data)
-    end
-    return {}
+  if type(data) == 'string' then
+    return lpeg.match(ini.grammar, data)
+  end
+  return {}
 end
+
+-- Use default settings
+ini.config{}
 
 return ini
