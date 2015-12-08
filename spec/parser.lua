@@ -1,13 +1,13 @@
 describe('Test the parser', function()
     local ini = require 'ini'
 
-    it('basic test', function()
+    it('#basic test', function()
         assert.same({ name = 'value' }, ini.parse('name = value'))
         assert.same({ section_test = {} }, ini.parse('[section_test]'))
         assert.same({}, ini.parse('; this is a comment test'))
     end)
 
-    it('section label', function()
+    it('#section label', function()
         assert.same({ section_test = {} }, ini.parse('[section_test]'))
         assert.same({ section_test1 = {} }, ini.parse('[section_test1]')) -- test digit
         assert.same({ s1ection_test = {} }, ini.parse('[s1ection_test]')) -- test digit
