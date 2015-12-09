@@ -76,6 +76,13 @@ ini.parse = function(data)
   return {}
 end
 
+ini.parse_file = function(filename)
+  local f = assert(io.open(filename, "r"))
+  local t = ini.parse(f:read('*all'))
+  f:close()
+  return t
+end
+
 -- Use default settings
 ini.config{}
 
