@@ -26,7 +26,7 @@ The previous ini file is converted into the following Lua table.
 
 ## Installation
 
-Copy the ini.lua to your project root or maybe in a ```lib``` folder.
+Copy the ini.lua file somewhere to your project root or maybe in the ```lib``` folder.
 
 ini.lua uses [LPeg][1] and depending on your needs it may be installed using [LuaRocks][5] or built from source into your project.
 
