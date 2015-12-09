@@ -37,6 +37,9 @@ sudo luarocks install lpeg
 You may also optionally install [busted][2] to run the spec.
 ```
 sudo luarocks install busted
+git clone https://github.com/lzubiaur/ini.lua
+cd lua.ini
+busted spec/parser.lua
 ```
 
 ## Usage
