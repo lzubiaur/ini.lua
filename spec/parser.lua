@@ -115,6 +115,21 @@ version = 1.0.0
 ]])
   end)
 
+  it('test file input', function()
+    assert.same({
+      window = {
+        fullscreen = 'true',
+        size = '200,200',
+      },
+      app = {
+        name = 'My Game',
+        version = '1.0.0'
+      }
+    }, ini.parse_file('spec/test.ini'))
+    -- assert.same({},ini.parse_file('spec/invalid.ini'))
+    assert.has_error(function() ini.parse_file('spec/does_not_exist.ini') end)
+    end)
+
 end)
 
 describe('Pattern tests', function()
