@@ -28,7 +28,7 @@ The previous ini file is converted into the following Lua table.
 
 Copy the ini.lua to your project root or maybe in a ```lib``` folder.
 
-ini.lua uses [LPeg][1] and depending on your needs you may install LPeg using [LuaRocks][5] or build LPeg from source and ship it with your app.
+ini.lua uses [LPeg][1] and depending on your needs it may be installed using [LuaRocks][5] or built from source into your project.
 
 ```
 sudo luarocks install lpeg
@@ -44,11 +44,15 @@ sudo luarocks install busted
 ```lua
 local ini = require 'ini'
 
+-- Parse input string
 local config = ini.parse [[
   [window]
   fullscreen=true
   size=200,200
 ]]
+
+-- Or parse files
+local config = ini.parse_file('my_config.ini')
 
 if config.window.fullscreen then
   -- Run the app in fullscreen
