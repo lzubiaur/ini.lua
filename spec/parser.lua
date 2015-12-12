@@ -14,6 +14,13 @@ describe('Test the parser', function()
     assert.same({}, ini.parse('; this is a comment test'))
   end)
 
+  it('#string test', function()
+    assert.same({ name = '  value ' }, ini.parse('name = "  value "')) -- add explicit whitespaces to string
+    assert.same({ name = ' "value' }, ini.parse('name =" ""value"')) -- Escaping double quotes
+    assert.same({ name = ' value' }, ini.parse('name = " value" ')) -- Space after double quotes are trimmed
+    assert.same({ name = ' "value' }, ini.parse('name = " ""value" '))
+  end)
+
   it('custom #settings', function()
     ini.config {
       separator = ':',
