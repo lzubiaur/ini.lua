@@ -38,6 +38,14 @@ name2 =value test
 ]]))
   end)
 
+  it('#lowercase test', function()
+    ini.config {
+      lowercase = true
+    }
+    assert.same({ name = 'value' }, ini.parse('NAME = value'))
+    assert.same({ _name = 'value' }, ini.parse('_Name = value'))
+  end)
+
   it('#string test', function()
     assert.same({ name = '  value ' }, ini.parse('name = "  value "')) -- add explicit whitespaces to string
     assert.same({ name = ' "value' }, ini.parse('name =" ""value"')) -- Escaping double quotes
