@@ -15,12 +15,26 @@ describe('Test the parser', function()
   end)
 
   it('#trim whitespaces test', function()
-    -- assert.same({ name = 'value' }, ini.parse('name = value '))
-    -- assert.same({ name = 'value' }, ini.parse('name =   value  '))
-    -- assert.same({ name = 'value test' }, ini.parse('name = value test '))
+    assert.same({ name = 'value' }, ini.parse('name = value '))
+    assert.same({ name = 'value' }, ini.parse('name =   value  '))
+    assert.same({ name = 'value test' }, ini.parse('name = value test '))
     assert.same({ name = 'value test', name2 = 'value test' }, ini.parse([[
 name = value test
 name2 = value test
+]]))
+  end)
+
+  it('#notrim test', function()
+    ini.config {
+      trim = false
+    }
+    assert.same({ name = ' value ' }, ini.parse('name = value '))
+    assert.same({ name = '  value  ' }, ini.parse('name =  value  '))
+    assert.same({ name = ' value test ' }, ini.parse('name = value test '))
+    assert.same({ name = 'value test' }, ini.parse('name =value test'))
+    assert.same({ name = ' value test', name2 = 'value test' }, ini.parse([[
+name = value test
+name2 =value test
 ]]))
   end)
 
@@ -222,8 +236,8 @@ describe('Pattern tests', function()
     assert.same({'a'},trim:match(' a '))
     assert.same({'a a'}, trim:match(' a a '))
     assert.same({'a a','b'}, trim:match([[
- a a  
-b  
+ a a
+b
 ]]))
   end)
 
