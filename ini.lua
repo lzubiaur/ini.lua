@@ -34,6 +34,7 @@ ini.config = function(t)
   -- Config parameters
   local sc = t.separator or '=' -- Separator character
   local cc = t.comment or ';#' -- Comment characters
+  local trim = t.trim == nil and true or t.trim -- Should capture or trim white spaces
   local lowercase_keys = true -- TODO
 
   -- LPeg shortcut
@@ -51,7 +52,7 @@ ini.config = function(t)
   local alpha = lpeg.alpha
   local digit = lpeg.digit
   local any = P(1)
-  
+
   ini.grammar = P{
     'all';
     -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
@@ -61,7 +62,7 @@ ini.config = function(t)
     cr = P'\n' + P'\r\n',
     comment = S(cc)^1 * lpeg.print^0,
     string = space^0 * P'"' * Cs((any - P'"' + P'""'/'"')^0) * P'"' * space^0,
-    value = space^0 * C(((space - '\n')^0 * (any - space)^1)^1) * space^0,
+    value = trim and space^0 * C(((space - '\n')^0 * (any - space)^1)^1) * space^0 or C((any - P'\n') ^1),
     set = Cg(V'key' * V'sep' * (V'string' + V'value')),
     line = space^0 * (V'comment' + V'set'),
     body = Cf(Ct'' * (V'cr' + V'line')^0, rawset),
