@@ -35,7 +35,7 @@ ini.config = function(t)
   local sc = t.separator or '=' -- Separator character
   local cc = t.comment or ';#' -- Comment characters
   local trim = t.trim == nil and true or t.trim -- Should capture or trim white spaces
-  local lowercase_keys = true -- TODO
+  local lc = t.lowercase == nil and false or t.lowercase -- Should key be lowercase
 
   -- LPeg shortcut
   local P = lpeg.P    -- Pattern
@@ -48,16 +48,17 @@ ini.config = function(t)
   local Ct = lpeg.Ct  -- Table capture
   local Cg = lpeg.Cg  -- Group capture
   local Cs = lpeg.Cs  -- Capture String (replace)
-  local space = lpeg.space
+  local space = lpeg.space -- include tab and new line (\n)
   local alpha = lpeg.alpha
   local digit = lpeg.digit
   local any = P(1)
 
+  local _alpha = P('_') + alpha -- underscore or alpha character
+  local keyid = _alpha^1 * (_alpha + digit)^0
+
   ini.grammar = P{
     'all';
-    -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
-    _alpha = P('_') + alpha, -- underscore or alpha character
-    key = C(V'_alpha'^1 * (V'_alpha' + digit)^0) * space^0,
+    key = not lc and C(keyid) * space^0 or Cs(keyid / function(s) return s:lower() end) * space^0,
     sep = P(sc),
     cr = P'\n' + P'\r\n',
     comment = S(cc)^1 * lpeg.print^0,
