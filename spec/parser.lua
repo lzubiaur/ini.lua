@@ -14,10 +14,20 @@ describe('Test the parser', function()
     assert.same({}, ini.parse('; this is a comment test'))
   end)
 
+  it('#trim whitespaces test', function()
+    -- assert.same({ name = 'value' }, ini.parse('name = value '))
+    -- assert.same({ name = 'value' }, ini.parse('name =   value  '))
+    -- assert.same({ name = 'value test' }, ini.parse('name = value test '))
+    assert.same({ name = 'value test', name2 = 'value test' }, ini.parse([[
+name = value test
+name2 = value test
+]]))
+  end)
+
   it('#string test', function()
     assert.same({ name = '  value ' }, ini.parse('name = "  value "')) -- add explicit whitespaces to string
     assert.same({ name = ' "value' }, ini.parse('name =" ""value"')) -- Escaping double quotes
-    assert.same({ name = ' value' }, ini.parse('name = " value" ')) -- Space after double quotes are trimmed
+    assert.same({ name = 'value' }, ini.parse('name = "value" ')) -- Whitespace before and after double quotes are trimmed
     assert.same({ name = ' "value' }, ini.parse('name = " ""value" '))
   end)
 
@@ -204,4 +214,17 @@ describe('Pattern tests', function()
     assert.equals(section:match('[section_test1]'), 'section_test1')
     assert.equals(section:match('[section1_test]'), 'section1_test')
   end)
+
+  -- local trim = Ct((space^0 * C(((space - '\n')^0 * (P(1) - space)^1)^1) * space^0 * P'\n'^0)^0)
+  local trim = Ct((space^0 * C((P' '^0 * (P(1) - space)^1)^1) * space^0)^0)
+
+  it('#trim_test', function()
+    assert.same({'a'},trim:match(' a '))
+    assert.same({'a a'}, trim:match(' a a '))
+    assert.same({'a a','b'}, trim:match([[
+ a a  
+b  
+]]))
+  end)
+
 end)
