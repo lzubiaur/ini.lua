@@ -50,7 +50,8 @@ ini.config = function(t)
   local space = lpeg.space
   local alpha = lpeg.alpha
   local digit = lpeg.digit
-
+  local any = P(1)
+  
   ini.grammar = P{
     'all';
     -- key = C(_alpha^1 * (_alpha + digit)^0) / function(k) return k:lower() end * space^0, -- TODO
@@ -59,8 +60,8 @@ ini.config = function(t)
     sep = P(sc),
     cr = P'\n' + P'\r\n',
     comment = S(cc)^1 * lpeg.print^0,
-    string = space^0 * P'"' * Cs((P(1) - P'"' + P'""'/'"')^0) * P'"' * space^0,
-    value = space^0 * C(lpeg.print^1), -- front space are not captured
+    string = space^0 * P'"' * Cs((any - P'"' + P'""'/'"')^0) * P'"' * space^0,
+    value = space^0 * C(((space - '\n')^0 * (any - space)^1)^1) * space^0,
     set = Cg(V'key' * V'sep' * (V'string' + V'value')),
     line = space^0 * (V'comment' + V'set'),
     body = Cf(Ct'' * (V'cr' + V'line')^0, rawset),
