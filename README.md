@@ -62,7 +62,22 @@ if config.window.fullscreen then
 end
 ```
 
-## TODO
+## Configuration
+
+ini.lua can be configured using the ini.config function. The following parameters are currently available:
+* separator: string to define the separator character. Default is the equal character (=)
+* comment: string to specify the comment characters. Default is semicolon (;) and number sign (#)
+* trim: By default leading and trailing white spaces are trimmed. This can be override by setting false to this parameter.
+* lowercase: By default the keys are not case sensitive. This can be changed by forcing the keys to be lowercase setting this parameter to true.
+
+```lua
+ini.config {
+  separator = ':',
+  comment = '^',
+  trim = false,
+  lowercase = true
+}
+```
 
 ## License
 This project is licensed under the terms of the [MIT license][4].
