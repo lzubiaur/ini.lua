@@ -44,6 +44,14 @@ name2 =value test
     }
     assert.same({ name = 'value' }, ini.parse('NAME = value'))
     assert.same({ _name = 'value' }, ini.parse('_Name = value'))
+    assert.same({
+      window = {
+        size = '200,200'
+      }
+    }, ini.parse[[
+[ WINDOW ]
+Size = 200,200
+]])
   end)
 
   it('#string test', function()
