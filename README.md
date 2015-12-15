@@ -28,7 +28,7 @@ The previous ini file is converted into the following Lua table.
 
 Copy the ini.lua file somewhere to your project root or maybe in the ```lib``` folder.
 
-ini.lua uses [LPeg][1] and depending on your needs it may be installed using [LuaRocks][5] or built from source into your project.
+ini.lua uses [LPeg][1] and depending on your needs it should be installed using [LuaRocks][5] or built from source into your project.
 
 ```
 sudo luarocks install lpeg
@@ -44,23 +44,33 @@ busted spec/parser.lua
 
 ## Usage
 
+Load the ini module using ```require 'ini'``` or ```require 'lib.ini'``` if you copied the ini.lua file in the ```lib``` folder.
+
+Call either ```ini.parse``` or ```ini.parse_file``` to parse a single string or a file. Multiline string can be passed to ```ini.parse``` using the double square brackets syntax.
+
+The parse functions return a table that you can use to access the ini keys/properties. For instance to get the value of the key ```fullscreen``` from the ```window``` section you simply use ```t.window.fullscreen``` or ```t['window']['fullscreen']```.
+
 ```lua
-local ini = require 'ini'
+local ini = require 'ini' -- or require 'lib.ini'
 
 -- Parse input string
-local config = ini.parse [[
+local settings = ini.parse [[
   [window]
   fullscreen=true
   size=200,200
 ]]
 
--- Or parse files
-local config = ini.parse_file('my_config.ini')
+-- Or parse an file input
+local settings = ini.parse_file('my_config.ini')
 
-if config.window.fullscreen then
+if settings.window.fullscreen then
   -- Run the app in fullscreen
 end
 ```
+## Format
+
+### Keys and sections
+
 
 ## Configuration
 
@@ -89,7 +99,7 @@ local config = ini.parse [[
 
 ```
 
-The previous ini will result in a Lua table like below.
+The previous example will produce the Lua table below. Please note that the leading spaces for both fullscreen and size values are now captured.
 
 ```
 {
@@ -99,7 +109,6 @@ The previous ini will result in a Lua table like below.
   }
 }
 ```
-Please not the leading spaces for both fullscreen and size values.
 
 ## License
 This project is licensed under the terms of the [MIT license][4].
