@@ -26,7 +26,7 @@ The previous ini file is converted into the following Lua table.
 
 ## Installation
 
-Copy the ini.lua file somewhere to your project root or maybe in the ```lib``` folder.
+Copy the ini.lua file somewhere to your project root or maybe in the `lib` folder.
 
 ini.lua uses [LPeg][1] and depending on your needs it should be installed using [LuaRocks][5] or built from source into your project.
 
@@ -44,11 +44,11 @@ busted spec/parser.lua
 
 ## Usage
 
-Load the ini module using ```require 'ini'``` or ```require 'lib.ini'``` if you copied the ini.lua file in the ```lib``` folder.
+Load the ini module using `require 'ini'` or `require 'lib.ini'` if you copied the ini.lua file in the `lib` folder.
 
-Call either ```ini.parse``` or ```ini.parse_file``` to parse a single string or a file. Multiline string can be passed to ```ini.parse``` using the double square brackets syntax.
+Call either `ini.parse` or `ini.parse_file` to parse a single string or a file. Multiline string can be passed to `ini.parse` using the double square brackets syntax.
 
-The parse functions return a table that you can use to access the ini keys/properties. For instance to get the value of the key ```fullscreen``` from the ```window``` section you simply use ```t.window.fullscreen``` or ```t['window']['fullscreen']```.
+The parse functions return a table that you can use to access the ini keys/properties. For instance to get the value of the key `fullscreen` from the `window` section you simply use `t.window.fullscreen` or `t['window']['fullscreen']`.
 
 ```lua
 local ini = require 'ini' -- or require 'lib.ini'
@@ -74,11 +74,11 @@ end
 
 ## Configuration
 
-ini.lua can be configured using the ```ini.config``` function. The following parameters are currently available:
-* ```separator```: string to define the separator character. Default is the equal character (=)
-* ```comment```: string to specify the comment characters. Default is semicolon (;) and number sign (#)
-* ```trim```: By default leading and trailing white spaces are trimmed. This can be override by setting false to this parameter.
-* ```lowercase```: By default the keys are not case sensitive. This can be changed by forcing the keys to be lowercase by setting this parameter to true.
+ini.lua can be configured using the `ini.config` function. The following parameters are currently available:
+* `separator`: string to define the separator character. Default is the equal character (=)
+* `comment`: string to specify the comment characters. Default is semicolon (;) and number sign (#)
+* `trim`: By default leading and trailing white spaces are trimmed. This can be override by setting false to this parameter.
+* `lowercase`: By default the keys are not case sensitive. This can be changed by forcing the keys to be lowercase by setting this parameter to true.
 
 ```lua
 local ini = require 'ini'
@@ -96,7 +96,6 @@ local config = ini.parse [[
   FULLSCREEN : true
   Size : 200,200
 ]]
-
 ```
 
 The previous example will produce the Lua table below. Please note that the leading spaces for both fullscreen and size values are now captured.
