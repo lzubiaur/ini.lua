@@ -1,5 +1,5 @@
 # ini.lua
-Simple [ini file format][3] parser for Lua.
+Simple [ini file format][3] parser/reader for Lua using [LPeg][1].
 
 ## Example
 
@@ -26,7 +26,7 @@ The previous ini file is converted into the following Lua table.
 
 ## Installation
 
-Copy the ini.lua file somewhere to your project root or maybe in the `lib` folder.
+Add the ini.lua file somewhere to your project root or maybe in the `lib` folder.
 
 ini.lua uses [LPeg][1] and depending on your needs it should be installed using [LuaRocks][5] or built from source into your project.
 
@@ -35,10 +35,11 @@ sudo luarocks install lpeg
 ```
 
 You may also optionally install [busted][2] to run the spec.
+
 ```
-sudo luarocks install busted
 git clone https://github.com/lzubiaur/ini.lua
 cd lua.ini
+sudo luarocks install busted
 busted spec/parser.lua
 ```
 
@@ -69,8 +70,20 @@ end
 ```
 ## Format
 
-### Keys and sections
+#### Keys and sections
+TODO
+* Duplicate keys and sections name.
+* Global or "default" properties.
 
+#### Comments
+TODO
+
+#### White spaces
+TODO
+
+* Trimming
+* Double quoted string
+* Blank lines
 
 ## Configuration
 
