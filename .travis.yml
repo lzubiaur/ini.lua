@@ -3,6 +3,9 @@ language: c
 # Run on the container-based new infrastructure
 sudo: false
 
+env:
+  - LUA: LuaJIT
+
 branches:
   only:
     - master
@@ -10,10 +13,9 @@ branches:
 addons:
   apt:
     packages:
-      lua
-      luarocks
 
 before_install:
+  - source .travis_setup.sh
   - luarocks install lpeg
   - luarocks install busted
 
