@@ -57,7 +57,7 @@ ini.config = function(t)
     any = any
       - P'\\a' + P'\\a'/'\a' -- bell
       - P'\\n' + P'\\n'/'\n' -- newline
-      - P'\\r' + P'\\r'/'\r' -- vertical tab
+      - P'\\r' + P'\\r'/'\r' -- carriage return
       - P'\\t' + P'\\t'/'\t' -- horizontal tab
       - P'\\f' + P'\\f'/'\f' -- form feed
       - P'\\b' + P'\\b'/'\b' -- back space
