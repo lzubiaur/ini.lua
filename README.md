@@ -32,7 +32,7 @@ Clone this repo and add the ini.lua file somewhere to your project root or maybe
 git clone https://github.com/lzubiaur/ini.lua && cd lua.ini
 ```
 
-ini.lua uses [LPeg][1] and depending on your needs it should be installed using [LuaRocks][5] or built from source into your project.
+ini.lua uses [LPeg][1] and depending on your needs the LPeg module should be installed via [LuaRocks][5] or built from source and bundled with your project.
 
 ```
 sudo luarocks install lpeg
