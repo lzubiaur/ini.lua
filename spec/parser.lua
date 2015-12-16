@@ -16,6 +16,7 @@ describe('Test the parser', function()
 
   it('#trim whitespaces test', function()
     assert.same({ name = 'value' }, ini.parse('name = value '))
+    assert.same({ name = 'value' }, ini.parse(' name = value '))
     assert.same({ name = 'value' }, ini.parse('name =   value  '))
     assert.same({ name = 'value test' }, ini.parse('name = value test '))
     assert.same({ name = 'value test', name2 = 'value test' }, ini.parse([[
