@@ -4,7 +4,10 @@ language: c
 sudo: false
 
 env:
-  - LUA: LuaJIT
+  global:
+    - LUAROCKS=2.2.2
+  matrix:
+    - LUA=lua5.3
 
 branches:
   only:
@@ -15,7 +18,7 @@ addons:
     packages:
 
 before_install:
-  - source .travis_setup.sh
+  - source .travis/setenv_lua.sh
   - luarocks install lpeg
   - luarocks install busted
 
