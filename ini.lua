@@ -31,7 +31,8 @@ ini.config = function(t)
   local sc = t.separator or '=' -- Separator character
   local cc = t.comment or ';#' -- Comment characters
   local trim = t.trim == nil and true or t.trim -- Should capture or trim white spaces
-  local lc = t.lowercase == nil and false or t.lowercase -- Should key be lowercase
+  local lc = t.lowercase == nil and false or t.lowercase -- Should keys be lowercase?
+  local escape = t.escape == nil and true or t.escape -- Should string literals used escape sequences?
 
   -- LPeg shortcut
   local P = lpeg.P    -- Pattern
@@ -51,6 +52,18 @@ ini.config = function(t)
 
   local _alpha = P('_') + alpha -- underscore or alpha character
   local keyid = _alpha^1 * (_alpha + digit)^0
+  -- Lua escape sequences (http://www.lua.org/pil/2.4.html)
+  if escape then
+    any = any
+      - P'\\a' + P'\\a'/'\a' -- bell
+      - P'\\n' + P'\\n'/'\n' -- newline
+      - P'\\r' + P'\\r'/'\r' -- vertical tab
+      - P'\\t' + P'\\t'/'\t' -- horizontal tab
+      - P'\\f' + P'\\f'/'\f' -- form feed
+      - P'\\b' + P'\\b'/'\b' -- back space
+      - P'\\v' + P'\\v'/'\v' -- vertical tab
+      - P'\\\\' + P'\\\\'/'\\' -- backslash
+  end
 
   ini.grammar = P{
     'all';
