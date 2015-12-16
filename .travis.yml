@@ -1,0 +1,23 @@
+# Run on the container-based new infrastructure
+sudo: false
+
+language: c
+
+addons:
+  apt:
+    packages:
+#      - mkdocs # Not yet available at travis
+
+before_install:
+  - wget --no-check-certificate http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz -O /tmp/cmake.tar.gz
+  - tar -xvzf /tmp/cmake.tar.gz
+  - export PATH=$PWD/cmake-3.3.2-Linux-x86_64/bin:$PATH
+  - export CMAKE_ROOT=$PWD/cmake-3.3.2-Linux-x86_64/share/cmake-3.3
+  - cmake --version
+# - sudo apt-get update -qq
+# - sudo apt-get install cmake
+
+script: bin/build-linux.sh
+
+notifications:
+  email: false
