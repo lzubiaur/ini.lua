@@ -42,7 +42,7 @@ You may also optionally install [busted][2] to run the spec.
 
 ```
 sudo luarocks install busted
-busted spec/parser.lua
+busted spec
 ```
 
 ## Usage
