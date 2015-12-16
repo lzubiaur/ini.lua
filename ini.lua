@@ -18,6 +18,8 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
+-- See README.md for the documentation and examples
+
 local lpeg = require 'lpeg'
 lpeg.locale(lpeg)   -- adds locale entries into 'lpeg' table
 
@@ -25,10 +27,6 @@ lpeg.locale(lpeg)   -- adds locale entries into 'lpeg' table
 local ini = {}
 
 -- TODO failed if there is an empty line at eof
--- NOTE
--- keys and sections redundancy
--- Redundant keys within the same section will be ignored and only the last occurence will be captured.
--- Sections with the same labels will be ignored and the last reduntant section occurence will be captured.
 
 ini.config = function(t)
   -- Config parameters
