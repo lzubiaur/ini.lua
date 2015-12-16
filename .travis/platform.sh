@@ -1,3 +1,4 @@
+# https://github.com/moteus/lua-travis-example
 if [ -z "${PLATFORM:-}" ]; then
   PLATFORM=$TRAVIS_OS_NAME;
 fi
