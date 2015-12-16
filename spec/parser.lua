@@ -39,6 +39,17 @@ name2 =value test
 ]]))
   end)
 
+  it('#comment test', function()
+    assert.same({}, ini.parse('; comment'))
+    assert.same({}, ini.parse(' ; comment'))
+    assert.same({name = 'value ; comment'}, ini.parse('name = value ; comment'))
+    assert.same({}, ini.parse('# comment'))
+    assert.same({}, ini.parse[[
+; comment
+# comment
+]])
+  end)
+
   it('#lowercase test', function()
     ini.config {
       lowercase = true
