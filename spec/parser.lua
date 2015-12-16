@@ -79,10 +79,17 @@ Size = 200,200
     assert.same({ section_test1 = {} }, ini.parse('[section_test1]')) -- test digit
     assert.same({ s1ection_test = {} }, ini.parse('[s1ection_test]')) -- test digit
     assert.same({ section_test = {} }, ini.parse('[ section_test ]  ')) -- test space
+
+    assert.same({ section_test = {} }, ini.parse('[ section_test ] # comment')) -- For some reason this works ?!
+    -- assert.same({ section_test = {} }, ini.parse('[ section_test ] name = value\nname2 = value')) -- this works too
     -- Fail tests
+    assert.is_nil(ini.parse('[[ section_test ]'))
+    assert.is_nil(ini.parse('[ section_test ]]'))
+    assert.is_nil(ini.parse('[[ section_test ]]'))
     assert.is_nil(ini.parse('[test_section'))
     assert.is_nil(ini.parse('test_section]'))
     assert.is_nil(ini.parse('[ section test ]'))
+    assert.is_nil(ini.parse('[ section test ] trash'))
     assert.is_nil(ini.parse('[1my_section_test]')) -- fail because starts with a digit
   end)
 
