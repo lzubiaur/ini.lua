@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lzubiaur/ini.lua.svg)](https://travis-ci.org/lzubiaur/ini.lua)
+
 # ini.lua
 Simple [ini file format][3] parser/reader for Lua using [LPeg][1].
 
@@ -42,7 +44,7 @@ You may also optionally install [busted][2] to run the spec.
 
 ```
 sudo luarocks install busted
-busted spec
+busted
 ```
 
 ## Usage
