@@ -26,8 +26,6 @@ lpeg.locale(lpeg)   -- adds locale entries into 'lpeg' table
 -- The module
 local ini = {}
 
--- TODO failed if there is an empty line at eof
-
 ini.config = function(t)
   -- Config parameters
   local sc = t.separator or '=' -- Separator character
