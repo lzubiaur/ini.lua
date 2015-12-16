@@ -71,6 +71,10 @@ Size = 200,200
     assert.same({ name = ' "value' }, ini.parse('name =" ""value"')) -- Escaping double quotes
     assert.same({ name = 'value' }, ini.parse('name = "value" ')) -- Whitespace before and after double quotes are trimmed
     assert.same({ name = ' "value' }, ini.parse('name = " ""value" '))
+    assert.same({ name = ' \'value' }, ini.parse('name = " \'value" ')) -- test quote
+    assert.same({ name = '\'value with quote' }, ini.parse[[
+name = 'value with quote
+]])
   end)
 
   it('custom #settings', function()
