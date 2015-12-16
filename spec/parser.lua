@@ -201,6 +201,21 @@ version = 2.0
 ]])
   end)
 
+  it('test #escape', function()
+    assert.same({ name = 'value' }, ini.parse('name = value\n'))
+    assert.same({ name = 'value\n' }, ini.parse('name = "value\n"'))
+    assert.same({ name = 'value\\n' }, ini.parse('name = value\\n'))
+    assert.same({ name = '\t value \n \\n'}, ini.parse[[
+name = "\t value \n \\n"
+]])
+  ini.config {
+    escape = false
+  }
+  assert.same({ name = '\\n \\\\t' }, ini.parse[[
+name = "\n \\t"
+]])
+  end)
+
   it('test #file input', function()
     assert.same({
       window = {
@@ -210,7 +225,7 @@ version = 2.0
       app = {
         name = 'My Game',
         version = '1.0.0',
-        escape = '\\n'
+        escaped_literal = '\n \\n'
       }
     }, ini.parse_file('spec/test.ini'))
     -- assert.same({},ini.parse_file('spec/invalid.ini'))
