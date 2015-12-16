@@ -165,6 +165,24 @@ version = 1.0.0
 ]])
   end)
 
+  it('test #duplicate', function()
+    assert.same({
+      window = {
+        fullscreen = 'false',
+        version = '2.0'
+      }
+    }, ini.parse[[
+[window]
+fullscreen = true
+size = 200
+
+[window]
+version = 1.0
+fullscreen = false
+version = 2.0
+]])
+  end)
+
   it('test file input', function()
     assert.same({
       window = {
