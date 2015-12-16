@@ -201,7 +201,7 @@ version = 2.0
 ]])
   end)
 
-  it('test file input', function()
+  it('test #file input', function()
     assert.same({
       window = {
         fullscreen = 'true',
@@ -209,7 +209,8 @@ version = 2.0
       },
       app = {
         name = 'My Game',
-        version = '1.0.0'
+        version = '1.0.0',
+        escape = '\\n'
       }
     }, ini.parse_file('spec/test.ini'))
     -- assert.same({},ini.parse_file('spec/invalid.ini'))
