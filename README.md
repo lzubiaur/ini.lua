@@ -73,7 +73,7 @@ if settings.window.fullscreen then
 end
 ```
 
-## Format
+## Format
 
 #### Keys and sections
 Duplicate keys and sections are ignored and only the last occurrence will be captured.
