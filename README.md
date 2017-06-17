@@ -72,6 +72,7 @@ if settings.window.fullscreen then
   -- Run the app in fullscreen
 end
 ```
+
 ## Format
 
 #### Keys and sections
