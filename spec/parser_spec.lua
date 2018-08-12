@@ -222,6 +222,8 @@ name = "\n \\t"
 
   it('test #file input', function()
     assert.same({
+      foo = 'Hello',
+      bar = 'World',
       window = {
         fullscreen = 'true',
         size = '200,200',
@@ -231,7 +233,20 @@ name = "\n \\t"
         version = '1.0.0',
         escaped_literal = '\n \\n'
       }
-    }, ini.parse_file('spec/test.ini'))
+    }, ini.parse_file('spec/test_win32.ini'))
+    assert.same({
+      foo = 'Hello',
+      bar = 'World',
+      window = {
+        fullscreen = 'true',
+        size = '200,200',
+      },
+      app = {
+        name = 'My Game',
+        version = '1.0.0',
+        escaped_literal = '\n \\n'
+      }
+    }, ini.parse_file('spec/test_unix.ini'))
     -- assert.same({},ini.parse_file('spec/invalid.ini'))
     assert.has_error(function() ini.parse_file('spec/does_not_exist.ini') end)
     end)
