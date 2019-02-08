@@ -51,7 +51,7 @@ ini.config = function(t)
   local any = P(1)
 
   local _alpha = P('_') + alpha -- underscore or alpha character
-  local keyid = _alpha^1 * (_alpha + digit)^0
+  local keyid = (_alpha + digit + S('.*'))^1
   -- Lua escape sequences (http://www.lua.org/pil/2.4.html)
   if escape then
     any = any
