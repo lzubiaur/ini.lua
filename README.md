@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/lzubiaur/ini.lua.svg)](https://travis-ci.org/lzubiaur/ini.lua)
 
-# ini.lua
-Simple [ini file format][3] parser/reader for Lua using [LPeg][1].
+# INI.lua
+Simple [INI file format][3] parser/reader for Lua using [LPeg][1].
 
 ## Example
 
@@ -13,7 +13,7 @@ fullscreen=true
 size=200,200
 ```
 
-The previous ini file is converted into the following Lua table.
+The previous INI file is converted into the following Lua table.
 
 ```lua
 {
@@ -28,28 +28,41 @@ The previous ini file is converted into the following Lua table.
 
 ## Installation
 
-Clone this repo and add the ini.lua file somewhere to your project root or maybe in the `lib` folder.
+Option 1: Install via LuaRocks (Recommended when available).
+Once the LuaRocks package is available, you can easily install the parser using:
+
+```bash
+luarocks install ini.lua
+```
+
+Option 2: Build from Source (Current Method)
+
+Clone this repo and add the `ini.lua` file somewhere to your project root or maybe in the `lib` folder.
 
 ```
 git clone https://github.com/lzubiaur/ini.lua && cd lua.ini
 ```
 
-ini.lua uses [LPeg][1] and depending on your needs the LPeg module should be installed via [LuaRocks][5] or built from source and bundled with your project.
+INI.lua uses [LPeg][1], and depending on your requirements, the LPeg module should be installed either via LuaRocks or built from source and bundled with your project.
 
 ```
 sudo luarocks install lpeg
 ```
 
-You may also optionally install [busted][2] to run the spec.
+You can also optionally install [busted][2] to run the tests.
 
 ```
 sudo luarocks install busted
 busted
 ```
 
+## Contribute
+
+If you'd like to contribute, a development container (devcontainer) for Visual Studio Code is provided. Please include unit tests for your changes in `parser_spec.lua` where applicable. 
+
 ## Usage
 
-Load the ini module using `require 'ini'` or `require 'lib.ini'` if you copied the ini.lua file in the `lib` folder.
+Load the ini module using `require 'ini'` or `require 'lib.ini'` if you copied the INI.lua file in the `lib` folder.
 
 Call either `ini.parse` or `ini.parse_file` to parse a single string or a file. Multiline string can be passed to `ini.parse` using the double square brackets syntax.
 
@@ -132,7 +145,7 @@ When trimming is disabled *all* characters after the separator character are cap
 
 ## Configuration
 
-ini.lua can be configured using the `ini.config` function. The following parameters are currently available:
+INI.lua can be configured using the `ini.config` function. The following parameters are currently available:
 * `separator`: String to define the separator character. Default is the equal character (=).
 * `comment`: String to specify the comment characters. Default is semicolon (;) and number sign (#).
 * `trim`: By default leading and trailing white spaces are trimmed. This can be overridden by setting `false` to this parameter.
