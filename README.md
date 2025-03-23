@@ -62,11 +62,23 @@ If you'd like to contribute, a development container (devcontainer) for Visual S
 
 ## Usage
 
-Load the ini module using `require 'ini'` or `require 'lib.ini'` if you copied the INI.lua file in the `lib` folder.
+To load the INI module, use:
+```lua
+require 'ini'  -- If INI.lua is in the default location
+```
+or
+```lua
+require 'lib.ini'  -- If you placed INI.lua inside the 'lib' folder
+```
 
-Call either `ini.parse` or `ini.parse_file` to parse a single string or a file. Multiline string can be passed to `ini.parse` using the double square brackets syntax.
+You can parse an INI string or file using either ini.parse or ini.parse_file:
 
-The parse functions return a table that you can use to access the ini keys/properties. For instance to get the value of the key `fullscreen` from the `window` section you simply use `t.window.fullscreen` or `t['window']['fullscreen']`.
+* ini.parse: Parses a multiline string (use double square brackets for multiline strings).
+* ini.parse_file: Parses an INI file from disk.
+
+Both functions return a table, allowing you to access the INI keys and values. For example, to retrieve the value of the `fullscreen` key from the `window` section, you can use either `settings.window.fullscreen` or `settings['window']['fullscreen']`.
+
+Example usage:
 
 ```lua
 local ini = require 'ini' -- or require 'lib.ini'
@@ -89,7 +101,7 @@ end
 ## Format
 
 #### Keys and sections
-Duplicate keys and sections are ignored and only the last occurrence will be captured.
+Duplicate keys and sections are ignored, and only the last occurrence is retained.
 
 ```lua
 t = ini.parse [[
@@ -105,7 +117,7 @@ print(t.window.fullscreen) -- false
 print(t.window.size) -- nil
 ```
 
-Global or "default" properties can be defined at the beginning of the ini file. Those properties will be added to the root table.
+Global or 'default' properties can be defined at the beginning of the INI file and will be added to the root table.
 
 ```lua
 t = ini.parse [[
@@ -118,7 +130,7 @@ print(t.version) -- 1.0
 ```
 
 #### Comments
-Comments starts with the semicolon (;) or number character (#) and are only allowed on their own lines. Comments characters can be changed using the `ini.config` function (see configuration below). Blank lines and comments are ignored.
+Comments begin with a semicolon (;) or hash (#) and must appear on their own lines. The comment characters can be customized using the `ini.config` function (see configuration below). Blank lines and comments are ignored.
 
 ```ini
 ; comment
@@ -126,10 +138,9 @@ Comments starts with the semicolon (;) or number character (#) and are only allo
 ```
 
 #### White spaces and escape sequences
-By default leading and trailing white spaces are ignored for section label and for both key name and value.
-If you want to capture spaces you can either turn off trimming (see the configuration section) or use string literals (value enclosed in double quotes (")).
+By default, leading and trailing whitespace is ignored for section labels, key names, and values. To capture spaces, you can either disable trimming (see the configuration section) or use string literals (values enclosed in double quotes).
 
-When using string literals, double quotes are escaped using two consecutive double quotes ("").
+When using string literals, double quotes within the value are escaped with two consecutive double quotes ("").
 
 ```ini
 name = " string with spaces and ""double quotes"" "
@@ -141,16 +152,17 @@ name = " string with spaces and ""double quotes"" "
 }
 ```
 
-When trimming is disabled *all* characters after the separator character are captured. Therefore `fullscreen = true` is converted into `fullscreen = ' true'`.
+When trimming is disabled, all characters after the separator are captured. For example, `fullscreen = true` would be converted to `fullscreen = ' true'`.
 
 ## Configuration
 
-INI.lua can be configured using the `ini.config` function. The following parameters are currently available:
-* `separator`: String to define the separator character. Default is the equal character (=).
-* `comment`: String to specify the comment characters. Default is semicolon (;) and number sign (#).
-* `trim`: By default leading and trailing white spaces are trimmed. This can be overridden by setting `false` to this parameter.
-* `lowercase`: By default the keys are not case sensitive. This can be changed by forcing the keys to be lowercase by setting this parameter to true.
-* `escape`: By default C-like escape sequences are interpreted. If set to false then escape sequences are left unchanged.
+INI.lua can be configured using the `ini.config` function. The following parameters are available:
+
+* `separator`: Specifies the separator character. The default is the equal sign (=).
+* `comment`: Defines the comment characters. The default is the semicolon (;) and number sign (#).
+* `trim`: By default, leading and trailing whitespace is trimmed. Set this parameter to false to disable trimming.
+* `lowercase`: By default, keys are case-insensitive. Set this parameter to true to force keys to be lowercase.
+* `escape`: By default, C-like escape sequences are interpreted. Set this to false to prevent escape sequences from being processed.
 
 ```lua
 local ini = require 'ini'
@@ -172,9 +184,9 @@ local config = ini.parse [[
 ]]
 ```
 
-The previous example will produce the Lua table below. Please note that the leading spaces for both fullscreen and size values are now captured (`trim` parameter is set to `false`).
+The previous example will produce the following Lua table. Note that the leading spaces for both the fullscreen and size values are now captured, as the `trim` parameter is set to `false`.
 
-```
+```lua
 {
   window = {
     fullscreen = ' true',
