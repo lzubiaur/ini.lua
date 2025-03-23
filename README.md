@@ -29,6 +29,7 @@ The previous INI file is converted into the following Lua table.
 ## Installation
 
 Option 1: Install via LuaRocks (Recommended)
+
 Once the LuaRocks package is available, you can easily install the parser using:
 
 ```bash
