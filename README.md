@@ -28,14 +28,14 @@ The previous INI file is converted into the following Lua table.
 
 ## Installation
 
-Option 1: Install via LuaRocks (Recommended when available).
+Option 1: Install via LuaRocks (Recommended)
 Once the LuaRocks package is available, you can easily install the parser using:
 
 ```bash
 luarocks install ini.lua
 ```
 
-Option 2: Build from Source (Current Method)
+Option 2: Build from Source
 
 Clone this repo and add the `ini.lua` file somewhere to your project root or maybe in the `lib` folder.
 
@@ -196,7 +196,7 @@ The previous example will produce the following Lua table. Note that the leading
 }
 ```
 
-# TODO
+## TODO
 
 * Parse comma separated values into array (e.g. `size=200,200` would become `size = {200,200}`)
 
