@@ -28,7 +28,7 @@ The previous INI file is converted into the following Lua table.
 
 ## Installation
 
-Option 1: Install via LuaRocks (Recommended)
+### Option 1: Install via LuaRocks (Recommended)
 
 Once the LuaRocks package is available, you can easily install the parser using:
 
@@ -36,7 +36,7 @@ Once the LuaRocks package is available, you can easily install the parser using:
 luarocks install ini.lua
 ```
 
-Option 2: Build from Source
+### Option 2: Build from Source
 
 Clone this repo and add the `ini.lua` file somewhere to your project root or maybe in the `lib` folder.
 
